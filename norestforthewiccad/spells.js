@@ -32,7 +32,7 @@ let spells =
 
 // get all spells
 router.get('/', function(req, res){
-    res.json({"message":"no spells here"});
+    res.json(spells);
 });
 // get a specific spell
 router.get('/:id', function(req, res){

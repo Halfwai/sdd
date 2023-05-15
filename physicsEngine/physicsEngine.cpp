@@ -43,8 +43,25 @@ public:
 	void testCollide()
 	{
 		Thing thing1{ 5.5f, 10.0f, 1.0f };
-		Thing thing2{ 4.5f, 10.0f, 1.0f };
+		Thing thing2{ 6.5f, 10.0f, 1.0f };
 		CPPUNIT_ASSERT(thing1.didCollide(thing2));
+	}
+
+	void testWorld()
+	{
+		World world{ 5.5f, 10.0f, -1.0f };
+		Thing thing{ 5.0f, 10.0f, 1.0f };
+		world.addThing(&thing);
+		CPPUNIT_ASSERT(world.countThings() == 1);
+	}
+
+	void testGravity()
+	{
+		World world{ 100.0f, 100.0f, -1.0f };
+		Thing thing{ 5.0f, 10.0f, 1.0f };
+		world.addThing(&thing);
+		world.update();
+		CPPUNIT_ASSERT(world.things[0].getY() == 9.0f);
 	}
 
 
@@ -75,7 +92,15 @@ int main()
 		"test Collision",
 		&FixtureTests::testCollide
 	});
+	runner.addTest(new CppUnit::TestCaller<FixtureTests>{
+		"test add things",
+		&FixtureTests::testWorld
+	});
 
+	runner.addTest(new CppUnit::TestCaller<FixtureTests>{
+		"Test Gravity",
+		&FixtureTests::testGravity
+	});
 
 	
 	

@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+
 class physics
 {
 };
@@ -40,7 +42,7 @@ class Thing
 		*/
 		void update();
 
-		bool didCollide(Thing otherThing);
+		bool didCollide(const Thing otherThing);
 	private:
 		float x;
 		float y;
@@ -48,4 +50,48 @@ class Thing
 		float dY;
 		float radius;
 };
+
+class World
+{
+public:
+	/** Create a world with the sent properties
+	* @param width
+	* @param height
+	* @param gravity
+	*/
+	World(float width, float height, float gravity);
+	/**
+	* Add a thing to the world.
+	* @param thing - a pointer to a thing (pass this in with &aThing)
+	*/
+	void addThing(Thing* thing);
+	/**
+	* Checks if the two things collided,
+	* true if distance < radius1 + radius2
+	* @param thing1: a pointer to a thing (&thing)
+	* @param thing2: a pointer to another thing (&thing)
+	* @return bool
+	*/
+	bool didThingsCollide(Thing* thing1, Thing* thing2);
+	/**
+	* Returns the number of things in the world
+	* @return int
+	*/
+	int countThings();
+	/**
+	* Update the things in the world, including
+	* applying gravitational forces
+	* computing collisions
+	* and applying edge of world bounces
+	*/
+	void update();
+
+	std::vector<Thing> things{};
+private:
+	float width;
+	float height;
+	float gravity;
+	
+};
+
 
