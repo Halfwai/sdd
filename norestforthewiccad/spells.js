@@ -37,7 +37,13 @@ router.get('/', function(req, res){
 // get a specific spell
 router.get('/:id', function(req, res){
    const spellId = req.params['id'];
-   res.json(spells[0]);
+   let spell;
+   for (let i = 0; i < spells.length; i++){
+        if (spells[i].id == spellId){
+            spell = spells[i];
+        }
+   }
+   res.json(spell);
 });
 // update a specific spell
 router.put('/:id', function(req, res){
@@ -46,13 +52,9 @@ router.put('/:id', function(req, res){
 });
 // add a new spell
 router.post('/', function(req, res){
-   res.json(spells);
-   let spell = 
-   {
-      id:req.body.id, 
-      name: "Is this the right name for your spell and does it have any ingredients?", 
-   };
-   spells.push(spell);
+    let spell = req.body;
+    spells.push(spell);
+    res.json(spells[3]);
 });
 
 module.exports = router;

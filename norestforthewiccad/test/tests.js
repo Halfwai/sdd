@@ -52,3 +52,35 @@ describe('Test spells response', () => {
     });
 });
 
+describe('Test separate spell response', () => {
+    it('it should return a spell with the id of 1002', (done) => {
+        chai.request('http://localhost:3000') // the top level web address
+        .get('/spells/1002') // the route to add to the top level address
+        .end((err, res) => { // what to do once the request returns
+            assert.equal(res.body.id, 1002); // check we have the 200 OK HTTP code
+            done(); // finish up
+        });
+    });
+});
+
+describe('Test adding spells', () => {
+    it('it should add a spell to the api', (done) => {
+        const newSpell = {
+            "id": 1005,
+            "name": "Stupid Spell",
+            "Ingredients": [{
+                "name": "Muck"
+            }],
+            "result": "You gonna die"
+        }
+        chai.request('http://localhost:3000') // the top level web address
+        .post('/spells') // the route to add to the top level address
+        .send(newSpell)
+        .end((err, res) => { // what to do once the request returns
+            assert.equal(res.body.id, 1005);
+            assert.equal(res.body.name, "Stupid Spell"); // check we have the 200 OK HTTP code
+            done(); // finish up
+        });
+    });
+});
+
