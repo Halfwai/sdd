@@ -37,18 +37,14 @@ router.get('/', function(req, res){
 // get a specific spell
 router.get('/:id', function(req, res){
    const spellId = req.params['id'];
-   let spell;
-   for (let i = 0; i < spells.length; i++){
-        if (spells[i].id == spellId){
-            spell = spells[i];
-        }
-   }
+   const spell = findSpell(spells, spellId);
    res.json(spell);
 });
 // update a specific spell
 router.put('/:id', function(req, res){
    const spellId = req.params['id'];
-   spell = {}
+   const spell = editSpell(spells, spellId, req.body);
+   res.json(spell);
 });
 // add a new spell
 router.post('/', function(req, res){
@@ -58,3 +54,22 @@ router.post('/', function(req, res){
 });
 
 module.exports = router;
+
+function findSpell(spells, spellId){
+    for (let i = 0; i < spells.length; i++){
+        if (spells[i].id == spellId){
+            return spells[i];
+        }
+   }
+   return null;
+}
+
+function editSpell(spells, spellId, editedSpell){
+    for (let i = 0; i < spells.length; i++){
+        if (spells[i].id == spellId){
+            spells[i] = editedSpell;
+            return spells[i];
+        }
+   }
+   return null;
+}

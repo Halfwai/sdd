@@ -78,7 +78,31 @@ describe('Test adding spells', () => {
         .send(newSpell)
         .end((err, res) => { // what to do once the request returns
             assert.equal(res.body.id, 1005);
-            assert.equal(res.body.name, "Stupid Spell"); // check we have the 200 OK HTTP code
+            assert.equal(res.body.name, "Stupid Spell"); // check the spell now exists in the api
+            done(); // finish up
+        });
+    });
+});
+
+describe('Test updating spells', () => {
+    it('it should change a spell already in the api', (done) => {
+        const editedSpell = {
+            "id": 1001,
+            "name": "Rabbit Foot Negativity",
+            "Ingredients": [{
+                "name": "Rotten rabbit's foot"
+            },
+            {
+                "name": "Dead beetle"
+            }],
+            "result": "Terrible terrible luck"
+        }
+        chai.request('http://localhost:3000') // the top level web address
+        .put('/spells/1001') // the route to add to the top level address
+        .send(editedSpell)
+        .end((err, res) => { // what to do once the request returns
+            assert.equal(res.body.id, 1001);
+            assert.equal(res.body.name, "Rabbit Foot Negativity"); // check the spell now exists in the api
             done(); // finish up
         });
     });
